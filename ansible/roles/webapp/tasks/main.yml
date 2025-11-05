@@ -1,0 +1,10 @@
+- name: Clone app repository
+  git:
+    repo: 'https://github.com/KurosuSama/vprofile_dockerization.git'
+    dest: /home/ubuntu/app
+    version: docker_on_EC2
+
+- name: Run docker-compose
+  command: docker-compose up -d --build
+  args:
+    chdir: /home/ubuntu/app
