@@ -1,0 +1,45 @@
+name: Deploy A[[ to aws
+
+on:
+  push:
+    branches:
+      - Ansi_CI/CD_Terra2LV
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Checkout Ansible code
+        uses: actions/checkout@v4
+        with:
+          repository: KurosuSama/vprofile_dockerization
+          path: ansible_code
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          aws-region: us-east-1
+
+      - name: Setup Python & Ansible
+        uses: actions/setup=python@v5
+        with:
+          python-version: '3.10'
+      - run: |
+          pip install ansible amazon.aws
+          ansible-galaxy collection install amazon.aws
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/aws_key
+          chmod 600 ~/.ssh/aws_key
+
+      - name: Run Playbook
+        run: |
+          cd ansible_code/ansible
+          ansible-playbook -i aws_ec2.yml playbook.yml
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "False"
