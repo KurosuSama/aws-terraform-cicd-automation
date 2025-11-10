@@ -30,7 +30,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: |
-          pip install ansible
+          pip install ansible boto3 botocore
           ansible-galaxy collection install amazon.aws
 
       - name: Setup SSH key
