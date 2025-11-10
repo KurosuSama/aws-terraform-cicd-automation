@@ -17,6 +17,7 @@ jobs:
           repository: KurosuSama/vprofile_dockerization
           path: ansible_code
 
+      # Secrets in GitHub
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
