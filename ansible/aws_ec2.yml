@@ -7,9 +7,9 @@ filters:
   tag:Name: ASG-WebApp-Server
   instance-state-name: running
 
-# keyed_groups:
-#   - key: tags.Name
-#     prefix: ""
+keyed_groups:
+  - key: ASG-WebApp-Server
+    prefix: ""
 
 compose:
   ansible_host: public_ip_address
