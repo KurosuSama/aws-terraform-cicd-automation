@@ -39,6 +39,10 @@ jobs:
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/aws_key
           chmod 600 ~/.ssh/aws_key
 
+      - name: Check ansible_host
+        run: |
+          ansible-inventory -i aws_ec2.yml --graph
+
       - name: Run Playbook
         run: |
           cd ansible_code/ansible
