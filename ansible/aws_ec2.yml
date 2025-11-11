@@ -4,12 +4,12 @@ regions:
   - us-east-1
 
 filters:
-  tag:
-    Name: ["ASG-WebApp-Server"]
-  instance-state-name: ["running"]
+  tags:
+    Name: ASG-WebApp-Server
+  instance-state-name: running
 
 keyed_groups:
-  - key: tag.Name
+  - key: tags.Name
     prefix: ""
 
 compose:
