@@ -38,6 +38,19 @@ jobs:
           mkdir -p ~/.ssh/
           echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/aws_key
           chmod 600 ~/.ssh/aws_key
+          
+      - name: Get Runner IP
+        id: get_ip
+        run: echo "runner_ip=$(curl -s 'https://api.ipify.org')" >> $GITHUB_OUTPUT
+      
+      - name: Whitelist Runner IP in Security Group
+        run: |
+          echo "Adding IP ${{ steps.get_ip.outputs.runner_ip }} to SG ${{ secrets.APP_SG_ID }}"
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.APP_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.get_ip.outputs.runner_ip }}/32
 
       - name: Check ansible_host
         run: |
@@ -50,4 +63,16 @@ jobs:
           ansible-playbook -i aws_ec2.yml playbook.yml
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
+
+      # 8. ВИДАЛЯЄМО IP з Security Group (ЗАВЖДИ)
+      - name: Remove Runner IP from Security Group
+        # Цей крок виконається ЗАВЖДИ, навіть якщо Ansible впаде
+        if: always() 
+        run: |
+          echo "Removing IP ${{ steps.get_ip.outputs.runner_ip }} from SG ${{ secrets.APP_SG_ID }}"
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.APP_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.get_ip.outputs.runner_ip }}/32
         
