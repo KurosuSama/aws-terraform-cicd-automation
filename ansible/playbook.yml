@@ -1,6 +1,6 @@
 ---
 - name: Deploy Web App
-  hosts: ASG-WebApp-Server
+  hosts: tag_ASG-WebApp-Server
   become: yes
 
   roles:
