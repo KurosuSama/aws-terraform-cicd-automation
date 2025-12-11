@@ -1,4 +1,4 @@
-name: Deploy A[[ to aws
+name: Deploy Infrastructure & App to AWS
 
 on:
   push:
@@ -64,9 +64,7 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
 
-      # 8. ВИДАЛЯЄМО IP з Security Group (ЗАВЖДИ)
       - name: Remove Runner IP from Security Group
-        # Цей крок виконається ЗАВЖДИ, навіть якщо Ansible впаде
         if: always() 
         run: |
           echo "Removing IP ${{ steps.get_ip.outputs.runner_ip }} from SG ${{ secrets.APP_SG_ID }}"
