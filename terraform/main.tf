@@ -16,14 +16,3 @@ resource "aws_key_pair" "key" {
   key_name   = "aws_key"
   public_key = file(pathexpand("~/.ssh/aws_key.pub"))
 }
-
-# Generic inventory.ini
-resource "local_file" "ansible_inventory" {
-  content  = <<-EOT
-    [webserver]
-    %{for ip in data.aws_instances.asg_instances.public_ips~}
-    ${ip} ansible_user=ubuntu
-    %{endfor~}
-  EOT
-  filename = "${path.module}/../ansible/inventory.ini"
-}
