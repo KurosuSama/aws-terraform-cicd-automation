@@ -11,7 +11,7 @@ Automated application deployment pipeline for High Availability AWS infrastructu
 
 The objective is to implement a fully automated Continuous Deployment (CD) pipeline. By moving the execution environment to GitHub Actions, the project eliminates manual local configuration and ensures that application updates are delivered to the AWS Auto Scaling Group consistently and securely.
 
-### Technical Evolution: Manual Ops vs. Automated CI/CD
+### Case Study: Manual Ops vs. Automated CI/CD
 
 | Feature | Local Deployment | CI/CD Automation |
 | :--- | :--- | :--- |
