@@ -51,7 +51,7 @@ To run this pipeline, the following **GitHub Secrets** must be configured in the
 
 The infrastructure is provisioned via Terraform, while the application deployment is handled by the GitHub Actions pipeline defined in `.github/workflows/deploy.yml`.
 
-**1. Infrastructure Provisioning (Terraform):**
+**Infrastructure Provisioning (Terraform):**
 ```bash
 cd terraform
 terraform init
