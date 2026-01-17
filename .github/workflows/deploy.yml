@@ -3,7 +3,7 @@ name: Deploy Infrastructure & App to AWS
 on:
   push:
     branches:
-      - Ansi_CI/CD_Terra2LV
+      - main
 
 jobs:
   deploy:
@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Ansible code
         uses: actions/checkout@v4
         with:
-          repository: KurosuSama/vprofile_dockerization
+          repository: KurosuSama/aws-terraform-cicd-automation
           path: ansible_code
 
       # Secrets in GitHub
